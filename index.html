@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Калькулятор ИМТ</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23facc15'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +13,12 @@
 <body>
   <div class="page">
     <header class="header">
-      <h1 class="title">Калькулятор ИМТ</h1>
+      <h1 class="title">
+        <span class="title-icon" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="32" height="32"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </span>
+        Калькулятор ИМТ
+      </h1>
       <p class="subtitle">Индекс массы тела — показатель соответствия веса и роста</p>
     </header>
 
@@ -20,7 +26,10 @@
       <div class="content-left">
         <form class="calculator" id="bmi-form" novalidate>
           <div class="field">
-            <label class="label" for="weight">Вес, кг</label>
+            <label class="label" for="weight">
+              <span class="label-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/></svg></span>
+              Вес, кг
+            </label>
             <input
               type="number"
               id="weight"
@@ -36,7 +45,10 @@
           </div>
 
           <div class="field">
-            <label class="label" for="height">Рост, см</label>
+            <label class="label" for="height">
+              <span class="label-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M13 2v2h4v2h-2v14h-2V6h-2V4h4V2h-2zm-2 4V4H9v2h2zm0 2H9v12h2V8zm-2 2V8H5v2h2zm0 2H5v8h2v-8z"/></svg></span>
+              Рост, см
+            </label>
             <input
               type="number"
               id="height"
@@ -51,17 +63,24 @@
             <span class="error" id="height-error" aria-live="polite"></span>
           </div>
 
-          <button type="submit" class="btn">Рассчитать ИМТ</button>
+          <button type="submit" class="btn">
+            <span class="btn-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg></span>
+            Рассчитать ИМТ
+          </button>
         </form>
 
         <section class="result" id="result" aria-live="polite" hidden>
+          <div class="result-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="28" height="28"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
           <div class="result-value" id="result-value"></div>
           <div class="result-category" id="result-category"></div>
           <p class="result-desc" id="result-desc"></p>
         </section>
 
         <section class="scale" aria-label="Шкала ИМТ">
-          <h2 class="scale-title">Шкала ИМТ</h2>
+          <h2 class="scale-title">
+            <span class="scale-title-icon" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M3 17v2h6v-2H3zM3 5v2h10V5H3zm10 16v-2h8v-2h-8v-2h-2v6h2zM7 9v2H3v2h4v2h2V9H7zm14 4v-2H11v2h10zm-6-4h2V7h4V5h-4V3h-2v6z"/></svg></span>
+            Шкала ИМТ
+          </h2>
           <div class="scale-bar">
             <span class="scale-segment severe-deficit">&lt;16</span>
             <span class="scale-segment deficit">16–18,5</span>
