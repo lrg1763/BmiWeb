@@ -57,6 +57,7 @@
     catEl.className = `result-category result-category--${category.key}`;
     desc.textContent = category.desc;
     section.hidden = false;
+    dom.form.closest('.page').classList.add('has-result');
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     section.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
     section.focus({ preventScroll: true });
@@ -74,6 +75,7 @@
 
     if (wErr || hErr) {
       dom.result.section.hidden = true;
+      dom.form.closest('.page').classList.remove('has-result');
       return;
     }
 

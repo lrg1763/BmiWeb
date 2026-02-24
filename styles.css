@@ -438,4 +438,20 @@ body {
     padding: 0.35rem 0;
     font-size: 0.6875rem;
   }
+
+  /* Когда результат показан — футер прижат вниз, контент выше прокручивается */
+  .page.has-result {
+    justify-content: flex-start;
+  }
+
+  .page.has-result .main {
+    overflow-y: auto;
+    flex: 1 1 0;
+    min-height: 0;
+  }
+
+  .page.has-result .footer {
+    margin-top: auto;
+    flex-shrink: 0;
+  }
 }
