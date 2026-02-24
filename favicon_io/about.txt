@@ -1,6 +1,6 @@
 This favicon was generated using the following font:
 
-- Font Title: Afacad
+- Font Title: Alata
 - Font Author: undefined
-- Font Source: https://fonts.gstatic.com/s/afacad/v2/6NUK8FKMIQOGaw6wjYT7ZHG_zsBBfvLqWmA08mCgdfM.ttf
+- Font Source: https://fonts.gstatic.com/s/alata/v11/PbytFmztEwbIofe6xKcRQEOX.ttf
 - Font License: undefined)

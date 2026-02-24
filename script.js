@@ -1,17 +1,12 @@
 (function () {
   'use strict';
 
-  const form = document.getElementById('bmi-form');
-  const weightInput = document.getElementById('weight');
-  const heightInput = document.getElementById('height');
-  const weightError = document.getElementById('weight-error');
-  const heightError = document.getElementById('height-error');
-  const resultSection = document.getElementById('result');
-  const resultValue = document.getElementById('result-value');
-  const resultCategory = document.getElementById('result-category');
-  const resultDesc = document.getElementById('result-desc');
+  const CONFIG = {
+    weight: { min: 20, max: 300, unit: 'кг' },
+    height: { min: 100, max: 250, unit: 'см' }
+  };
 
-  const categories = [
+  const CATEGORIES = [
     { max: 16, key: 'severe_deficit', label: 'Выраженный дефицит массы тела', desc: 'Рекомендуется консультация врача.' },
     { max: 18.5, key: 'deficit', label: 'Недостаточная (дефицит) масса тела', desc: 'Рекомендуется консультация врача для оценки питания.' },
     { max: 25, key: 'normal', label: 'Норма', desc: 'Вес в пределах нормы для вашего роста.' },
@@ -21,65 +16,77 @@
     { max: Infinity, key: 'obese3', label: 'Ожирение третьей степени (морбидное)', desc: 'Рекомендуется консультация врача.' }
   ];
 
-  function getCategory(bmi) {
-    return categories.find(function (c) { return bmi <= c.max; }) || categories[categories.length - 1];
-  }
+  const dom = {
+    form: document.getElementById('bmi-form'),
+    weight: { input: document.getElementById('weight'), error: document.getElementById('weight-error') },
+    height: { input: document.getElementById('height'), error: document.getElementById('height-error') },
+    result: {
+      section: document.getElementById('result'),
+      value: document.getElementById('result-value'),
+      category: document.getElementById('result-category'),
+      desc: document.getElementById('result-desc')
+    }
+  };
 
   function validateNumber(value, min, max, unit) {
     const num = parseFloat(value, 10);
     if (value.trim() === '') return 'Введите значение';
     if (isNaN(num)) return 'Должно быть число';
-    if (num < min || num > max) return 'От ' + min + ' до ' + max + ' ' + unit;
+    if (num < min || num > max) return `От ${min} до ${max} ${unit}`;
     return '';
   }
 
-  function showErrors(weightMsg, heightMsg) {
-    weightError.textContent = weightMsg || '';
-    heightError.textContent = heightMsg || '';
+  function setFieldError(field, message) {
+    field.error.textContent = message || '';
+    field.input.setAttribute('aria-invalid', message ? 'true' : 'false');
   }
 
   function calculateBMI(weightKg, heightCm) {
-    var heightM = heightCm / 100;
+    const heightM = heightCm / 100;
     return weightKg / (heightM * heightM);
   }
 
-  function showResult(bmi, category) {
-    resultValue.textContent = 'ИМТ: ' + bmi.toFixed(1);
-    resultCategory.textContent = category.label;
-    resultCategory.className = 'result-category result-category--' + category.key;
-    resultDesc.textContent = category.desc;
-    resultSection.hidden = false;
-    resultSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  function getCategory(bmi) {
+    return CATEGORIES.find((c) => bmi <= c.max) || CATEGORIES[CATEGORIES.length - 1];
   }
 
-  form.addEventListener('submit', function (e) {
+  function showResult(bmi, category) {
+    const { section, value, category: catEl, desc } = dom.result;
+    value.textContent = `ИМТ: ${bmi.toFixed(1)}`;
+    catEl.textContent = category.label;
+    catEl.className = `result-category result-category--${category.key}`;
+    desc.textContent = category.desc;
+    section.hidden = false;
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    section.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'nearest' });
+    section.focus({ preventScroll: true });
+  }
+
+  function handleSubmit(e) {
     e.preventDefault();
+    const weight = dom.weight.input.value.trim();
+    const height = dom.height.input.value.trim();
+    const wErr = validateNumber(weight, CONFIG.weight.min, CONFIG.weight.max, CONFIG.weight.unit);
+    const hErr = validateNumber(height, CONFIG.height.min, CONFIG.height.max, CONFIG.height.unit);
 
-    var weight = weightInput.value.trim();
-    var height = heightInput.value.trim();
-
-    var wErr = validateNumber(weight, 20, 300, 'кг');
-    var hErr = validateNumber(height, 100, 250, 'см');
-    showErrors(wErr, hErr);
+    setFieldError(dom.weight, wErr);
+    setFieldError(dom.height, hErr);
 
     if (wErr || hErr) {
-      resultSection.hidden = true;
+      dom.result.section.hidden = true;
       return;
     }
 
-    var bmi = calculateBMI(parseFloat(weight, 10), parseFloat(height, 10));
-    var category = getCategory(bmi);
-    showResult(bmi, category);
-  });
+    const bmi = calculateBMI(parseFloat(weight, 10), parseFloat(height, 10));
+    showResult(bmi, getCategory(bmi));
+  }
 
-  weightInput.addEventListener('input', function () {
-    weightError.textContent = '';
-  });
-  heightInput.addEventListener('input', function () {
-    heightError.textContent = '';
-  });
+  function setupInputHandlers(field) {
+    field.input.addEventListener('input', () => setFieldError(field, ''));
+    field.input.addEventListener('wheel', (e) => e.preventDefault(), { passive: false });
+  }
 
-  // Запрет изменения значения колёсиком мыши — только ввод с клавиатуры
-  weightInput.addEventListener('wheel', function (e) { e.preventDefault(); }, { passive: false });
-  heightInput.addEventListener('wheel', function (e) { e.preventDefault(); }, { passive: false });
+  dom.form.addEventListener('submit', handleSubmit);
+  setupInputHandlers(dom.weight);
+  setupInputHandlers(dom.height);
 })();

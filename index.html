@@ -3,10 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Калькулятор индекса массы тела (ИМТ). Введите вес и рост — получите результат и интерпретацию по категориям ВОЗ.">
+  <meta name="theme-color" content="#0f0f0f">
   <title>Калькулятор ИМТ</title>
   <link rel="icon" type="image/x-icon" href="favicon_io/favicon.ico">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon_io/favicon-16x16.png">
   <link rel="icon" type="image/png" sizes="32x32" href="favicon_io/favicon-32x32.png">
-  <link rel="apple-touch-icon" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="favicon_io/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="favicon_io/android-chrome-192x192.png">
+  <link rel="icon" type="image/png" sizes="512x512" href="favicon_io/android-chrome-512x512.png">
+  <link rel="manifest" href="favicon_io/site.webmanifest">
   <link rel="stylesheet" href="styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,9 +39,12 @@
               min="20"
               max="300"
               step="0.1"
+              inputmode="decimal"
               required
+              aria-describedby="weight-error"
+              aria-invalid="false"
             >
-            <span class="error" id="weight-error" aria-live="polite"></span>
+            <span class="error" id="weight-error" aria-live="polite" role="alert"></span>
           </div>
 
           <div class="field">
@@ -49,15 +58,18 @@
               min="100"
               max="250"
               step="0.1"
+              inputmode="decimal"
               required
+              aria-describedby="height-error"
+              aria-invalid="false"
             >
-            <span class="error" id="height-error" aria-live="polite"></span>
+            <span class="error" id="height-error" aria-live="polite" role="alert"></span>
           </div>
 
           <button type="submit" class="btn">Рассчитать ИМТ</button>
         </form>
 
-        <section class="result" id="result" aria-live="polite" hidden>
+        <section class="result" id="result" aria-live="polite" tabindex="-1" hidden>
           <div class="result-value" id="result-value"></div>
           <div class="result-category" id="result-category"></div>
           <p class="result-desc" id="result-desc"></p>
@@ -79,10 +91,11 @@
     </main>
 
     <footer class="footer">
-      <p>ИМТ = вес (кг) ÷ рост² (м). Не заменяет консультацию врача.</p>
+      <p class="footer-title">Формула ИМТ</p>
+      <p class="footer-formula"><code>ИМТ = вес (кг) / рост<sup>2</sup> (м)</code></p>
     </footer>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js" defer></script>
 </body>
 </html>
